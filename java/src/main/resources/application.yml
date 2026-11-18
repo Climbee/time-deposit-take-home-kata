@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: time-deposit-kata
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    locations: classpath:db/migration
+
+springdoc:
+  swagger-ui:
+    # Serve the hand-written contract (src/main/resources/static/openapi.yaml), not a generated one.
+    url: /openapi.yaml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  flyway:
+    locations: classpath:db/migration,classpath:db/sample-data
