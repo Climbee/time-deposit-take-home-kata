@@ -1,5 +1,6 @@
 package org.ikigaidigital;
 
+import org.ikigaidigital.interest.InterestPolicy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -87,6 +88,27 @@ class TimeDepositCalculatorTest {
         assertThat(basic.getBalance()).isEqualTo(10008.33);
         assertThat(student.getBalance()).isEqualTo(10000.00);
         assertThat(premium.getBalance()).isEqualTo(10041.67);
+    }
+
+    @Test
+    void appliesAdditionalPlanPoliciesWithoutChangingTheCalculator() {
+        InterestPolicy flatTenPerMonth = new InterestPolicy() {
+            @Override
+            public String planType() {
+                return "flat";
+            }
+
+            @Override
+            public double monthlyInterest(TimeDeposit deposit) {
+                return 10;
+            }
+        };
+        TimeDepositCalculator extended = new TimeDepositCalculator(List.of(flatTenPerMonth));
+        TimeDeposit deposit = new TimeDeposit(1, "flat", 100.00, 1);
+
+        extended.updateBalance(List.of(deposit));
+
+        assertThat(deposit.getBalance()).isEqualTo(110.00);
     }
 
     @Test
