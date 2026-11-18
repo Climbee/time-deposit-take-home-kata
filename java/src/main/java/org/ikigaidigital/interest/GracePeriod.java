@@ -8,7 +8,7 @@ import org.ikigaidigital.TimeDeposit;
  */
 final class GracePeriod {
 
-    static final int DAYS = 30;
+    private static final int DAYS = 30;
 
     private GracePeriod() {
     }
